@@ -1,0 +1,13 @@
+set linenumbers
+set morespace
+set nohelp
+set positionlog
+set nowrap
+set smarthome
+set suspend
+set locking
+unset casesensitive
+
+bind ^W	cutwordleft	main
+bind ^F	whereis main
+bind ^S writeout main
