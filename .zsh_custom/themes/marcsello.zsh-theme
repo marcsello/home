@@ -62,7 +62,7 @@ zstyle ':vcs_info:*:prompt:*' nvcsformats   ""
 
 function steeef_precmd {
         if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-            FMT_BRANCH="${PM_RST} (%{$hotpink%}%b%f)%u%c${PR_RST}"
+            FMT_BRANCH="${PM_RST} (%{$turquoise%}%b%f)%u%c${PR_RST} %{$hotpink%}●%{$reset_color%}"
         else
             FMT_BRANCH="${PM_RST} (%{$turquoise%}%b%f)%u%c${PR_RST}"
         fi
