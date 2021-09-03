@@ -82,8 +82,10 @@ for plug in "${plugs[@]}"; do
 	[[ -d "$folder" ]] || git clone "$repo" "$folder"
 done
 
-
 source $ZSH/oh-my-zsh.sh
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # User configuration
 
@@ -93,6 +95,10 @@ EDITOR='nano'
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
+
+setopt appendhistory
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 
 # highly advanced magic stuff
 
