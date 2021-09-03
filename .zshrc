@@ -72,7 +72,16 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian kubectl)
+plugins=(git debian kubectl history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
+
+# auto-install some plugins
+plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
+for plug in "${plugs[@]}"; do
+	repo="https://github.com/zsh-users/$plug"
+	folder="${ZSH_CUSTOM:-$ZSH/custom}/plugins/$plug"
+	[[ -d "$folder" ]] || git clone "$repo" "$folder"
+done
+
 
 source $ZSH/oh-my-zsh.sh
 
