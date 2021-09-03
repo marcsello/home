@@ -72,7 +72,7 @@ HYPHEN_INSENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git debian kubectl history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git debian kubectl zsh-syntax-highlighting history-substring-search zsh-autosuggestions)
 
 # auto-install some plugins
 plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
