@@ -1,0 +1,9 @@
+[user]
+	name = marcsello
+	email = punkosdmarcell@rocketmail.com
+
+[core]
+	editor = nano
+
+[apply]
+	whitespace = nowarn
