@@ -1,6 +1,24 @@
 #!/bin/bash
 
-# install some plugins
+# Install things if any of them missing
+echo "Checking if all convenience programs are installed..."
+pkgs=(zsh nano tmux htop tree)
+for pkg in "${pkgs[@]}"; do
+	if ! command -v "$pkg" >/dev/null; then
+		sudo apt install ${pkgs[@]}
+		break
+	fi
+done
+
+echo "Checking if all fancy zsh plugins are installed..."
+
+# mcfly is a special kid
+if ! command -v mcfly >/dev/null; then
+	curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh | sudo sh -s -- --git cantino/mcfly
+fi
+
+
+# install some other plugins (Thanks MikeTTh)
 plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
 for plug in "${plugs[@]}"; do
 	repo="https://github.com/zsh-users/$plug"
@@ -8,3 +26,20 @@ for plug in "${plugs[@]}"; do
 	[[ -d "$folder" ]] || git clone "$repo" "$folder"
 done
 
+echo "Checking for ssh key specific to this machine..."
+
+# Generate ssh key if needed
+if [[ ! -f ~/.ssh/id_rsa ]]; then
+	hostname="${HOST:-$HOSTNAME}"
+	ssh-keygen -b 4096 -t rsa -C "$USER@$hostname" -f ~/.ssh/id_rsa
+
+	echo "Your new very own public key is the following:"
+	echo
+	cat ~/.ssh/id_rsa.pub
+	echo
+fi
+
+echo "Updating yadm origin url..."
+
+# Change yadm origin address to use ssh
+yadm remote set-url origin "git@github.com:marcsello/home.git"
