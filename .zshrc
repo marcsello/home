@@ -4,7 +4,6 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/marcsello/.oh-my-zsh"
-export ZSH_CUSTOM="/home/marcsello/.zsh_custom"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -65,7 +64,7 @@ HYPHEN_INSENSITIVE="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+export ZSH_CUSTOM="/home/marcsello/.zsh_custom"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -73,14 +72,6 @@ HYPHEN_INSENSITIVE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git debian kubectl zsh-syntax-highlighting history-substring-search zsh-autosuggestions)
-
-# auto-install some plugins
-plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
-for plug in "${plugs[@]}"; do
-	repo="https://github.com/zsh-users/$plug"
-	folder="${ZSH_CUSTOM:-$ZSH/custom}/plugins/$plug"
-	[[ -d "$folder" ]] || git clone "$repo" "$folder"
-done
 
 source $ZSH/oh-my-zsh.sh
 
@@ -120,5 +111,3 @@ if command -v mcfly >/dev/null; then
   export MCFLY_RESULTS=25
   eval "$(mcfly init zsh)"
 fi
-
-

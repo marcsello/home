@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# install some plugins
+plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
+for plug in "${plugs[@]}"; do
+	repo="https://github.com/zsh-users/$plug"
+	folder="${ZSH_CUSTOM:-$ZSH/custom}/plugins/$plug"
+	[[ -d "$folder" ]] || git clone "$repo" "$folder"
+done
+
