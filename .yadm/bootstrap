@@ -2,7 +2,8 @@
 
 # Install things if any of them missing
 echo "Checking if all convenience programs are installed..."
-pkgs=(zsh nano tmux htop tree)
+# Also curl, because we use that in this script
+pkgs=(zsh nano tmux htop tree curl)
 for pkg in "${pkgs[@]}"; do
 	if ! command -v "$pkg" >/dev/null; then
 		sudo apt install ${pkgs[@]}
@@ -11,6 +12,11 @@ for pkg in "${pkgs[@]}"; do
 done
 
 echo "Checking if all fancy zsh plugins are installed..."
+
+# First! Oh My Zsh...
+if [[ ! -d .oh-my-zsh ]]; then
+	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 # mcfly is a special kid
 if ! command -v mcfly >/dev/null; then
