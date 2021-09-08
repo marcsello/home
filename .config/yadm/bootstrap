@@ -50,7 +50,7 @@ echo "Installing crontab..."
 
 while read line; do
 
-	if ! crontab -l | grep -xFq "${line}"; then
+	if ! crontab -l 2>/dev/null | grep -xFq "${line}"; then
 		(crontab -l 2>/dev/null; echo "${line}") | crontab -
 	fi
 
