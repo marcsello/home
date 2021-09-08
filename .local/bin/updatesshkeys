@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! command -v curl >/dev/null; then
+	echo "curl is not installed!"
+	exit 2
+fi
+
 sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
 authorized_keys="/home/marcsello/.ssh/authorized_keys"
 tmpfile=$(mktemp -p "/home/marcsello/.ssh" keysXXXXXXXX)
@@ -11,6 +16,7 @@ function cleanup() {
 trap cleanup EXIT
 
 # Try to download a valid keys file
+download_success="0"
 for source in "${sources[@]}"; do
 
 	echo "Trying ${source}..."
@@ -18,16 +24,17 @@ for source in "${sources[@]}"; do
 
 	if ssh-keygen -lf "${tmpfile}" >/dev/null; then
 		echo "Downloaded keys are valid..."
+		download_success="1"
 		break # success
 	else
 		echo "Downloaded keys are invalid!"
-		cleanup
 	fi
 
 done
 
 # exit on failure
-if [[ ! -f "${tmpfile}" ]]; then
+if [[ "$download_success" -ne "1" ]]; then
+	echo "Could not download public keys!"
 	exit 1
 fi
 
