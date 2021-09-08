@@ -64,3 +64,6 @@ echo "Updating yadm origin url..."
 
 # Change yadm origin address to use ssh
 yadm remote set-url origin "git@github.com:marcsello/home.git"
+
+echo "Updating public keys..."
+/home/marcsello/.local/bin/updatesshkeys
