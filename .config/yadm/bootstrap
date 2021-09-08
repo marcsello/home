@@ -14,7 +14,7 @@ done
 echo "Checking if all fancy zsh plugins are installed..."
 
 # First! Oh My Zsh...
-if [[ ! -d .oh-my-zsh ]]; then
+if [[ ! -d /home/marcsello/.oh-my-zsh ]]; then
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
