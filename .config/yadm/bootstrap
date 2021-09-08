@@ -55,8 +55,8 @@ while read line; do
 	fi
 
 done << __EOF__
-0 */2 * * * find /home/marcsello/Downloads/ -mtime +7 -delete
-15 */2 * * * /home/marcsello/.local/bin/updatesshkeys
+0 */2 * * * find /home/marcsello/Downloads/ -mtime +7 -delete >/dev/null
+15 */2 * * * /home/marcsello/.local/bin/updatesshkeys >/dev/null
 __EOF__
 
 
