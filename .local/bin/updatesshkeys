@@ -1,0 +1,47 @@
+#!/bin/bash
+
+sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
+authorized_keys="/home/marcsello/.ssh/authorized_keys"
+tmpfile=$(tempfile -d "/home/marcsello/.ssh" -p keys)
+
+function cleanup() {
+	rm -f "${tmpfile}"
+}
+
+trap cleanup EXIT
+
+# Try to download a valid keys file
+for source in "${sources[@]}"; do
+
+	echo "Trying ${source}..."
+	curl -s -m 60 --fail --fail-early -o "${tmpfile}" "${source}" || continue
+
+	if ssh-keygen -lf "${tmpfile}" >/dev/null; then
+		echo "Downloaded keys are valid..."
+		break # success
+	else
+		echo "Downloaded keys are invalid!"
+		cleanup
+	fi
+
+done
+
+# exit on failure
+if [[ ! -f "${tmpfile}" ]]; then
+	exit 1
+fi
+
+# Compile authorized_keys file
+(
+	echo "# Synchronized keys:"
+	cat "${tmpfile}"
+	if [[ -f "${authorized_keys}.local" ]]; then
+		echo "# Locally added keys:"
+		cat "${authorized_keys}.local"
+	fi
+
+) > "${authorized_keys}"
+
+# Ensure correct permissions
+chmod 600 "$authorized_keys"
+echo "Done!"

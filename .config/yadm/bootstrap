@@ -46,6 +46,20 @@ if [[ ! -f ~/.ssh/id_rsa ]]; then
 	echo
 fi
 
+echo "Installing crontab..."
+
+while read line; do
+
+	if ! crontab -l | grep -xFq "${line}"; then
+		(crontab -l 2>/dev/null; echo "${line}") | crontab -
+	fi
+
+done << __EOF__
+0 */2 * * * find /home/marcsello/Downloads/ -mtime +7 -delete
+15 */2 * * * /home/marcsello/.local/bin/updatesshkeys
+__EOF__
+
+
 echo "Updating yadm origin url..."
 
 # Change yadm origin address to use ssh
