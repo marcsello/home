@@ -2,7 +2,7 @@
 
 sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
 authorized_keys="/home/marcsello/.ssh/authorized_keys"
-tmpfile=$(tempfile -d "/home/marcsello/.ssh" -p keys)
+tmpfile=$(mktemp -p "/home/marcsello/.ssh" keysXXXXXXXX)
 
 function cleanup() {
 	rm -f "${tmpfile}"
