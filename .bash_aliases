@@ -23,5 +23,7 @@ alias o=xdg-open
 alias n=nano
 
 # replacements
-alias docker=podman
-alias docker-compose=podman-compose
+if command -v podman >/dev/null; then # Only replace if podman is installed
+	alias docker=podman
+	alias docker-compose=podman-compose
+fi
