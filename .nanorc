@@ -1,10 +1,11 @@
 set linenumbers
-set morespace
+unset emptyline
+unset jumpyscrolling
 set nohelp
 set positionlog
-set nowrap
+unset breaklonglines
 set smarthome
-set suspend
+set suspendable
 set locking
 unset casesensitive
 
