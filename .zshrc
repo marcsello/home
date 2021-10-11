@@ -111,3 +111,6 @@ if command -v mcfly >/dev/null; then
   export MCFLY_RESULTS=25
   eval "$(mcfly init zsh)"
 fi
+
+# Fix KP_Enter
+bindkey -s "^[OM" "^M"
