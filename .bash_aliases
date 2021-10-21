@@ -21,6 +21,8 @@ alias star=tar
 # convenience
 alias o=xdg-open
 alias n=nano
+alias a='source venv/bin/activate'
+alias da='deactivate'
 
 # replacements
 if command -v podman >/dev/null; then # Only replace if podman is installed
