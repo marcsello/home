@@ -3,7 +3,7 @@
 export PATH="$PATH:$HOME/.local/bin"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/marcsello/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -64,7 +64,8 @@ HYPHEN_INSENSITIVE="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-export ZSH_CUSTOM="/home/marcsello/.zsh_custom"
+# We need that, so that it won't mess up zsh auto updater
+export ZSH_CUSTOM="$HOME/.zsh_custom"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
