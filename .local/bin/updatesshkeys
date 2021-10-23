@@ -1,9 +1,32 @@
 #!/bin/bash
 
-if ! command -v curl >/dev/null; then
-	echo "curl is not installed!"
-	exit 2
-fi
+
+function download {
+
+	if command -v curl >/dev/null 2>&1; then
+
+		curl -s -m 60 --fail --fail-early -o "$2" "$1"
+		return $?
+
+	elif command -v wget >/dev/null 2>&1; then
+
+		wget -T 60 -q -O "$2" "$1"
+		return $?
+
+	elif command -v python3 >/dev/null 2>&1; then
+
+		python3 - "$1" "$2" << __EOF__
+import sys, urllib.request
+urllib.request.urlretrieve(sys.argv[1], sys.argv[2])
+__EOF__
+		return $?
+
+	else
+		echo "Nothing to download with!"
+		exit 2
+	fi
+
+}
 
 sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
 authorized_keys="/home/marcsello/.ssh/authorized_keys"
@@ -11,6 +34,7 @@ authorized_keys="/home/marcsello/.ssh/authorized_keys"
 mkdir -p /home/marcsello/.ssh # make sure the .ssh folder exists
 tmpfile=$(mktemp -p "/home/marcsello/.ssh" keysXXXXXXXX)
 
+# Set hook to always clear tmpfile
 function cleanup() {
 	rm -f "${tmpfile}"
 }
@@ -22,7 +46,7 @@ download_success="0"
 for source in "${sources[@]}"; do
 
 	echo "Trying ${source}..."
-	curl -s -m 60 --fail --fail-early -o "${tmpfile}" "${source}" || continue
+	download "${source}" "${tmpfile}" || continue
 
 	if ssh-keygen -lf "${tmpfile}" >/dev/null; then
 		echo "Downloaded keys are valid..."
