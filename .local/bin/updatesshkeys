@@ -116,7 +116,7 @@ if [[ "$download_success" -ne "1" ]]; then
 fi
 
 # create a backup
-cp "${authorized_keys}" "${authorized_keys}.old"
+cp "${authorized_keys}" "${authorized_keys}.old" 2>/dev/null || true # the file might be missing
 
 # Compile authorized_keys file
 (
