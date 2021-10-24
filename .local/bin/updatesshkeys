@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Config... thing
+sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
+
 
 function download {
 
@@ -28,15 +31,63 @@ __EOF__
 
 }
 
-sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
-authorized_keys="/home/marcsello/.ssh/authorized_keys"
+function sshdirFromUsername {
+	[[ -z "$1" ]] && return
 
-mkdir -p /home/marcsello/.ssh # make sure the .ssh folder exists
-tmpfile=$(mktemp -p "/home/marcsello/.ssh" keysXXXXXXXX)
+	if [[ "$1" == "root" ]]; then # This might not be the safest bet
+		echo "/root/.ssh"
+	else
+		echo "/home/$1/.ssh"
+	fi
+}
 
-# Set hook to always clear tmpfile
+# First, try to figure out sshdir from either the env or the cli arg
+if [[ -n "$1" ]]; then
+	SSHDIR="$1"
+fi
+
+# autodetect if not set
+if [[ -z "$SSHDIR" ]]; then
+	if [[ -n "$HOME" ]]; then
+		SSHDIR="$HOME/.ssh"
+	elif [[ -n "$USER" ]]; then
+		SSHDIR=$(sshdirFromUsername "$USER")
+	elif [[ -n "$LOGNAME" ]]; then
+		SSHDIR=$(sshdirFromUsername "$LOGNAME")
+	else
+		SSHDIR=$(sshdirFromUsername $(whoami))
+	fi
+fi
+
+# fail if still not found
+if [[ -z "$SSHDIR" ]]; then
+	echo "Could not determine the user's ssh directory"
+	echo "Please provide it as the first commandline argument"
+	exit 1
+fi
+
+# Ensure that this dir exists, and accessible
+
+mkdir -p "$SSHDIR" || exit 2 # make sure the .ssh folder exists
+
+if [[ ! -d "$SSHDIR" ]]; then
+	echo "User's local SSH directory ($SSHDIR) does not exists, and it could not be created!"
+	exit 3
+fi
+
+# And now... the main act...
+
+authorized_keys="$SSHDIR/authorized_keys"
+tmpfile=$(mktemp -p "$SSHDIR" keysXXXXXXXX)
+
+# Set hook to always clear tmpfile, and restore backup if the authorized_keys file is broken
 function cleanup() {
 	rm -f "${tmpfile}"
+
+	# In case anything goes wrong, at any point, try to restore the backup
+	if ! ssh-keygen -lf "${authorized_keys}" >/dev/null; then
+		cp "${authorized_keys}.old" "${authorized_keys}" || echo "Could not restore backup!!"
+	fi
 }
 
 trap cleanup EXIT
@@ -61,8 +112,11 @@ done
 # exit on failure
 if [[ "$download_success" -ne "1" ]]; then
 	echo "Could not download public keys!"
-	exit 1
+	exit 4
 fi
+
+# create a backup
+cp "${authorized_keys}" "${authorized_keys}.old"
 
 # Compile authorized_keys file
 (
