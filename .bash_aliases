@@ -5,6 +5,7 @@ alias babi=nano
 alias nani=nano
 alias mamp=nano
 alias nanoű=nano
+alias naon=nano
 alias dc=cd
 alias lubectl=kubectl
 alias ipa="ip a"
