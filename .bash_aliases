@@ -18,6 +18,7 @@ alias sl=ls
 alias mkdor=mkdir
 alias mkdur=mkdir
 alias star=tar
+alias fint=find
 
 # convenience
 alias o=xdg-open
