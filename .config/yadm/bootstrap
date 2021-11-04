@@ -14,7 +14,7 @@ done
 echo "Checking if all fancy zsh plugins are installed..."
 
 # First! Oh My Zsh...
-if [[ ! -d /home/marcsello/.oh-my-zsh ]]; then
+if [[ ! -d $HOME/.oh-my-zsh ]]; then
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
@@ -26,7 +26,7 @@ fi
 
 # install some other plugins (Thanks MikeTTh)
 plugs=(zsh-history-substring-search zsh-autosuggestions zsh-syntax-highlighting)
-ZSH_CUSTOM="/home/marcsello/.zsh_custom"
+ZSH_CUSTOM="$HOME/.zsh_custom"
 for plug in "${plugs[@]}"; do
 	repo="https://github.com/zsh-users/$plug"
 	folder="${ZSH_CUSTOM}/plugins/$plug"
@@ -40,7 +40,7 @@ echo "Checking if ZSH is the login shell"
 echo "Checking for ssh key specific to this machine..."
 
 # Generate ssh key if needed
-if [[ ! -f ~/.ssh/id_rsa ]]; then
+if [[ ! -f "$HOME/.ssh/id_rsa" ]]; then
 	hostname="${HOST:-$HOSTNAME}"
 	ssh-keygen -b 4096 -t rsa -C "$USER@$hostname" -f ~/.ssh/id_rsa
 
@@ -59,8 +59,8 @@ while read line; do
 	fi
 
 done << __EOF__
-0 */2 * * * find /home/marcsello/Downloads/ -mindepth 1 -mtime +7 -delete >/dev/null
-15 */2 * * * /home/marcsello/.local/bin/updatesshkeys >/dev/null
+0 */2 * * * find $HOME/Downloads/ -mindepth 1 -mtime +7 -delete >/dev/null
+15 */2 * * * $HOME/.local/bin/updatesshkeys >/dev/null
 __EOF__
 
 
@@ -70,4 +70,4 @@ echo "Updating yadm origin url..."
 yadm remote set-url origin "git@github.com:marcsello/home.git"
 
 echo "Updating public keys..."
-/home/marcsello/.local/bin/updatesshkeys
+$HOME/.local/bin/updatesshkeys
