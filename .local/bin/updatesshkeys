@@ -1,5 +1,7 @@
 #!/bin/bash
 
+UPDATER_REVISION="3"
+
 # Config... thing
 sources=("https://github.com/marcsello.keys" "https://gitlab.com/marcsello.keys")
 
@@ -131,4 +133,19 @@ cp "${authorized_keys}" "${authorized_keys}.old" 2>/dev/null || true # the file 
 
 # Ensure correct permissions
 chmod 600 "$authorized_keys"
+
+# Signal a successful update
+
+if [[ -f "$SSHDIR/upman_key" ]]; then
+
+	echo "Signaling a succcesful update..."
+
+	upman_key=$(cat "${SSHDIR}/upman_key" | tr -d '\n')
+
+	keyfile_checksum=$(md5sum "$authorized_keys" | head -c 8)
+	digest="${UPDATER_REVISION};${keyfile_checksum}"
+
+	download "https://upman.marcsello.com/api/report/${upman_key}/${digest}" /dev/null
+fi
+
 echo "Done!"
