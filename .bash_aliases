@@ -25,6 +25,7 @@ alias o=xdg-open
 alias n=nano
 alias a='source venv/bin/activate'
 alias da='deactivate'
+alias mkvenv='python3 -m venv venv'
 
 # replacements
 if command -v podman >/dev/null; then # Only replace if podman is installed
