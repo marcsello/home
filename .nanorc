@@ -9,6 +9,6 @@ set suspendable
 set locking
 unset casesensitive
 
-bind ^W	cutwordleft	main
+bind ^W	chopwordleft	main
 bind ^F	whereis main
 bind ^S writeout main
