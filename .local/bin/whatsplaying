@@ -1,7 +1,15 @@
 #!/bin/bash
 
-if [[ $(playerctl status 2>/dev/null) == "Playing" ]]; then
-  playerctl metadata title
-else
-  echo " " # this is required to make genmon happy
-fi
+for player in $(playerctl -l); do
+	if [[ $(playerctl -p $player status 2>/dev/null) == "Playing" ]]; then
+
+		if [[ "$player" == "vlc" ]]; then
+			echo $(playerctl -p $player metadata artist)" - "$(playerctl -p $player metadata title)
+		else
+			playerctl -p $player metadata title
+		fi
+
+		exit 0
+	fi
+done
+echo " " # damn you genmon
