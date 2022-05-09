@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 FILE=$1
 shift
 
-jq -C . < $FILE | less -r $@
+if [[ $FILE == '-' ]] || [[ $FILE == '' ]]; then
+
+    jq -C . | less -r $@
+
+else
+
+    jq -C . < $FILE | less -r $@
+
+fi
