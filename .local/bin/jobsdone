@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function play {
+
+	if command -v mplayer >/dev/null; then
+
+		mplayer $@ >/dev/null 2>/dev/null
+
+	elif command -v mpv >/dev/null; then
+
+		mpv $@ >/dev/null 2>/dev/null
+
+	elif command -v mpg123 >/dev/null; then
+
+		mpg123 $@ >/dev/null 2>/dev/null
+
+	elif command -v vlc >/dev/null; then
+
+		vlc --qt-start-minimized --play-and-exit $@ >/dev/null 2>/dev/null
+
+	else
+		echo "No suitable player found!"
+		exit 1
+	fi
+
+}
+
+
+play $HOME/.local/share/jobs_done.mp3
