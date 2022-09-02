@@ -13,3 +13,4 @@
 
 [pager]
 	branch = false
+	tag = false
