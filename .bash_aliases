@@ -27,6 +27,9 @@ alias a='source venv/bin/activate'
 alias da='deactivate'
 alias mkvenv='python3 -m venv venv'
 
+# this is not aliased by the kubectl plugin for some reason
+alias kg='kubectl get'
+
 # replacements
 if command -v podman >/dev/null; then # Only replace if podman is installed
 	alias docker=podman
