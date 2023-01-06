@@ -26,6 +26,7 @@ alias n=nano
 alias a='source venv/bin/activate'
 alias da='deactivate'
 alias mkvenv='python3 -m venv venv'
+alias cdtmp='cd $(mktemp -d)'
 
 # this is not aliased by the kubectl plugin for some reason
 alias kg='kubectl get'

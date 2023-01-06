@@ -4,12 +4,33 @@ for player in $(playerctl -l); do
 	if [[ $(playerctl -p $player status 2>/dev/null) == "Playing" ]]; then
 
 		if [[ "$player" == "vlc" ]]; then
-			echo $(playerctl -p $player metadata artist)" - "$(playerctl -p $player metadata title)
+
+			artist=$(playerctl -p $player metadata artist)
+			title=$(playerctl -p $player metadata title)
+			url=$(playerctl -p $player metadata xesam:url)
+
+			if [[ "${artist}" == "" ]]; then
+
+				if [[ "${title}" == "" ]]; then
+					basename ${url}
+				else
+					echo "${title}"
+				fi
+
+
+			else
+
+				echo "${artist} - ${title}"
+
+			fi
+
+
+
 		else
 			playerctl -p $player metadata title
 		fi
 
 		exit 0
 	fi
-done
+done 2>/dev/null
 echo " " # damn you genmon
