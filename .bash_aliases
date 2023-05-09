@@ -36,3 +36,7 @@ if command -v podman >/dev/null; then # Only replace if podman is installed
 	alias docker=podman
 	alias docker-compose=podman-compose
 fi
+
+if command -v codium >/dev/null; then # Only replace if codium is installed
+	alias code=codium
+fi
