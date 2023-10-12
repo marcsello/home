@@ -5,7 +5,6 @@ set nohelp
 set positionlog
 unset breaklonglines
 set smarthome
-set suspendable
 set locking
 unset casesensitive
 
