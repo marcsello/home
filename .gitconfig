@@ -14,3 +14,9 @@
 [pager]
 	branch = false
 	tag = false
+
+[url "git@github.com:"]
+  insteadOf = https://github.com
+
+[url "git@git.sch.bme.hu:"]
+	insteadOf = https://git.sch.bme.hu/
