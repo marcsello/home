@@ -90,7 +90,6 @@ fi
 
 setopt appendhistory
 setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
 
 # highly advanced magic stuff
 
@@ -116,3 +115,6 @@ fi
 # Fix KP_Enter
 bindkey -s "^[OM" "^M"
 
+# Shared history is not that fun actually...
+setopt no_share_history
+unsetopt share_history
