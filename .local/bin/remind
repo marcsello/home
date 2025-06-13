@@ -20,11 +20,12 @@ function play {
 
 	else
 		echo "No suitable player found!"
-		exit 1
 	fi
 
 }
 
+sleep $1
+shift
 
-play $HOME/.local/share/jobs_done.mp3 &
-notify-send "Jobs done!"
+play $HOME/.local/share/notify.mp3 &
+notify-send "$@"

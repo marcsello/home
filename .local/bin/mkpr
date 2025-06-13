@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+set -u
+
+# target url scheme:
+#https://github.com/{org}/{repo}/pull/new/{branch}
+
+if ! git rev-parse --is-inside-work-tree >/dev/null; then
+	echo "Not in git repository"
+	exit 1
+fi
+
+remote_name="upstream"
+
+if git remote | grep -q 'origin'; then
+	remote_name="origin" # prefer origin if set
+fi
+
+origin_url=$(git config --get "remote.${remote_name}.url")
+
+if grep -q '^git@' <<< "${origin_url}"; then
+
+	org_repo=$(cut -d ':' -f 2 <<< "${origin_url}" | sed 's/\.git$//g')
+	url_base="https://github.com/${org_repo}"
+
+else
+
+	url_base=$(sed 's/\.git$//g' <<< "${origin_url}")
+
+
+fi
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+echo "Open PR for ${current_branch} in ${url_base}"
+xdg-open "${url_base}/pull/new/${current_branch}"

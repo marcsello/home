@@ -3,7 +3,7 @@
 for player in $(playerctl -l); do
 	if [[ $(playerctl -p $player status 2>/dev/null) == "Playing" ]]; then
 
-		if [[ "$player" == "vlc" ]]; then
+		if [[ "$player" == "vlc" ]] || [[ "$player" =~ "firefox"* ]]; then
 
 			artist=$(playerctl -p $player metadata artist)
 			title=$(playerctl -p $player metadata title)
