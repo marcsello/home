@@ -20,11 +20,20 @@ for player in $(playerctl -l); do
 
 			else
 
-				echo "${artist} - ${title}"
+				if [[ "$url" == *"youtube.com/watch"* ]]; then
 
+					if [[ "$title" == *" - "* ]]; then
+						# the title probably contains the artist name
+						echo "${title}"
+					else
+						# use the uploader's name as the artist name
+						echo "${artist} - ${title}"
+					fi
+
+				else
+					echo "${artist} - ${title}"
+				fi
 			fi
-
-
 
 		else
 			playerctl -p $player metadata title

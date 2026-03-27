@@ -44,12 +44,16 @@ cat - | run_pipe &
 sleep 0.1
 unlink $PIPE
 
+last_ding="${SECONDS}"
+
 while read line; do
 
-	play $HOME/.local/share/ding.mp3 &
+	if [[ $(( "${SECONDS}" - "${last_ding}" )) -ge 2 ]]; then
+		play $HOME/.local/share/ding.mp3 &
+		last_ding="${SECONDS}"
+	fi
 
 done <&3
 
 # close file descriptor (bash kinda does this already)
 #exec 3>&-
-
